@@ -1,0 +1,16 @@
+version: "2.1"
+services:
+  agendamiento-db:
+    image: mysql:5.7
+    healthcheck:
+      test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE"
+      interval: 20s
+      timeout: 5s
+      retries: 15
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: agenamiento
+      MYSQL_USER: Fernando
+      MYSQL_PASSWORD: 2123
+    ports:
+      - "3003:3003"
