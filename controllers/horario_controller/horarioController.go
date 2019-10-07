@@ -14,7 +14,7 @@ import (
 	model "agendamiento/model"
 )
 
-func NewHorariotHandler(db *driver.DB) *Horario {
+func NewHorarioHandler(db *driver.DB) *Horario {
 	return &Horario{
 		repo: horario.NewSQLHorario(db.SQL),
 	}
