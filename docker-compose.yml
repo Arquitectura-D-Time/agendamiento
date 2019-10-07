@@ -9,7 +9,7 @@ services:
       retries: 15
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: agenamiento
+      MYSQL_DATABASE: agendamiento
       MYSQL_USER: Fernando
       MYSQL_PASSWORD: 2123
     ports:

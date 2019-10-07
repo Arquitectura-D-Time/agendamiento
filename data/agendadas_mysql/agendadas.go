@@ -92,6 +92,7 @@ func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model
 	_, err = stmt.ExecContext(
 		ctx,
 		p.IDalumno,
+		p.IDtutoria,
 	)
 	if err != nil {
 		return nil, err

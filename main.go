@@ -22,7 +22,7 @@ func main() {
 	*/
 
 	//connection, err := driver.ConnectSQL(dbHost, dbPort, "Fernando", dbPass, dbName)
-	connection, err := driver.ConnectSQL("localhost", "3003", "Fernando", "2123", "agendamiento")
+	connection, err := driver.ConnectSQL("localhost", "3306", "Fernando", "2123", "agendamiento")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
@@ -37,7 +37,7 @@ func main() {
 
 	r.Route("/", func(rt chi.Router) {
 		rt.Mount("/horario", horarioRouter(horarioHandler))
-		rt.Mount("/agendado", agendadasRouter(agendadasHandler))
+		rt.Mount("/agendadas", agendadasRouter(agendadasHandler))
 	})
 
 	fmt.Println("Server listen at :5003")
@@ -48,10 +48,10 @@ func main() {
 func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", horarioHandler.Fetch)
-	r.Get("/{id:[0-9]+}", horarioHandler.GetByID)
+	r.Get("/{IDtutoria:[0-9]+}", horarioHandler.GetByID)
 	r.Post("/", horarioHandler.Create)
-	r.Put("/{id:[0-9]+}", horarioHandler.Update)
-	r.Delete("/{id:[0-9]+}", horarioHandler.Delete)
+	r.Put("/{IDtutoria:[0-9]+}", horarioHandler.Update)
+	r.Delete("/{IDtutoria:[0-9]+}", horarioHandler.Delete)
 
 	return r
 }
@@ -59,10 +59,10 @@ func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 func agendadasRouter(agendadasHandler *ac.Agendadas) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", agendadasHandler.Fetch)
-	r.Get("/{id:[0-9]+}", agendadasHandler.GetByID)
+	r.Get("/{IDtutoria:[0-9]+}", agendadasHandler.GetByID)
 	r.Post("/", agendadasHandler.Create)
-	r.Put("/{id:[0-9]+}", agendadasHandler.Update)
-	r.Delete("/{id:[0-9]+}", agendadasHandler.Delete)
+	r.Put("/{IDtutoria:[0-9]+}", agendadasHandler.Update)
+	r.Delete("/{IDtutoria:[0-9]+}", agendadasHandler.Delete)
 
 	return r
 }

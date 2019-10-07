@@ -5,6 +5,7 @@ import (
 	model "agendamiento/model"
 	"context"
 	"database/sql"
+	"fmt"
 )
 
 func NewSQLHorario(Conn *sql.DB) repo.Horario {
@@ -33,7 +34,7 @@ func (m *mysqlHorario) fetch(ctx context.Context, query string, args ...interfac
 			&data.IDtutor,
 			&data.NombreMateria,
 			&data.Fecha,
-			&data.HoraInicial,
+			&data.HoraInicio,
 			&data.HoraFinal,
 			&data.Cupos,
 		)
@@ -53,11 +54,13 @@ func (m *mysqlHorario) Fetch(ctx context.Context, num int64) ([]*model.Horario, 
 
 func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Horario, error) {
 	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where IDtutoria=?"
-
 	rows, err := m.fetch(ctx, query, IDtutoria)
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Print("Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where IDtutoria=")
+	fmt.Println(IDtutoria)
 
 	payload := &model.Horario{}
 	if len(rows) > 0 {
@@ -77,7 +80,7 @@ func (m *mysqlHorario) Create(ctx context.Context, p *model.Horario) (int64, err
 		return -1, err
 	}
 
-	res, err := stmt.ExecContext(ctx, p.IDtutoria, p.IDtutor, p.NombreMateria, p.Fecha, p.HoraInicial, p.HoraFinal, p.Cupos)
+	res, err := stmt.ExecContext(ctx, p.IDtutoria, p.IDtutor, p.NombreMateria, p.Fecha, p.HoraInicio, p.HoraFinal, p.Cupos)
 	defer stmt.Close()
 
 	if err != nil {
@@ -99,9 +102,10 @@ func (m *mysqlHorario) Update(ctx context.Context, p *model.Horario) (*model.Hor
 		p.IDtutor,
 		p.NombreMateria,
 		p.Fecha,
-		p.HoraInicial,
+		p.HoraInicio,
 		p.HoraFinal,
 		p.Cupos,
+		p.IDtutoria,
 	)
 	if err != nil {
 		return nil, err

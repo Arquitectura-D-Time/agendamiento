@@ -41,6 +41,7 @@ func (p *Agendadas) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondwithJSON(w, http.StatusCreated, map[string]string{"message": "Successfully Created"})
+	fmt.Println(err)
 }
 
 func (p *Agendadas) Update(w http.ResponseWriter, r *http.Request) {
@@ -58,6 +59,7 @@ func (p *Agendadas) Update(w http.ResponseWriter, r *http.Request) {
 
 func (p *Agendadas) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
+	fmt.Println(id)
 	payload, err := p.repo.GetByID(r.Context(), int64(id))
 
 	if err != nil {

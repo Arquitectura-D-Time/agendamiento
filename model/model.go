@@ -5,7 +5,7 @@ type Horario struct {
 	IDtutor       int64  `json':"IDtutor"`
 	NombreMateria string `json':"NombreMateria"`
 	Fecha         string `json':"Fecha"`
-	HoraInicial   string `json':"HoraInicial"`
+	HoraInicio    string `json':"HoraInicio"`
 	HoraFinal     string `json':"HoraFinal"`
 	Cupos         int64  `json':"Cupos"`
 }
