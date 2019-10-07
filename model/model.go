@@ -1,16 +1,16 @@
 package model
 
 type Horario struct {
-	IDtutoria     int64  `json':"idtutoria"`
-	IDtutor       int64  `json':"idtutor"`
-	NombreMateria string `json':"nombremateria"`
-	Fecha         string `json':"fecha"`
-	HoraInicial   string `json':"horainicial"`
-	HoraFinal     string `json':"horafinal"`
-	Cupos         int64  `json':"cupos"`
+	IDtutoria     int64  `json':"IDtutoria"`
+	IDtutor       int64  `json':"IDtutor"`
+	NombreMateria string `json':"NombreMateria"`
+	Fecha         string `json':"Fecha"`
+	HoraInicial   string `json':"HoraInicial"`
+	HoraFinal     string `json':"HoraFinal"`
+	Cupos         int64  `json':"Cupos"`
 }
 
 type Agendadas struct {
-	IDtutoria int64 `json':"idtutoria"`
-	IDalumno  int64 `json':"idalumno"`
+	IDtutoria int64 `json':"IDtutoria"`
+	IDalumno  int64 `json':"IDalumno"`
 }

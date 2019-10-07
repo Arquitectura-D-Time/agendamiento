@@ -7,7 +7,7 @@ import (
 	"database/sql"
 )
 
-func NewSQLHorario(Conn *sql.DB) repo.Agendadas {
+func NewSQLAgendadas(Conn *sql.DB) repo.Agendadas {
 	return &mysqlAgendadas{
 		Conn: Conn,
 	}
