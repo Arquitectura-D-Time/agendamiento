@@ -22,7 +22,7 @@ func main() {
 	*/
 
 	//connection, err := driver.ConnectSQL(dbHost, dbPort, "Fernando", dbPass, dbName)
-	connection, err := driver.ConnectSQL("localhost", "3306", "Fernando", "2123", "agendamiento")
+	connection, err := driver.ConnectSQL("192.168.1.79", "3306", "Fernando", "2123", "agendamiento")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)

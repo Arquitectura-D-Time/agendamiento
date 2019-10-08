@@ -1,5 +1,22 @@
 version: "2.1"
 services:
+  agendamiento-go:
+      build:
+        context: ./
+      ports:
+        - "5003:5003"
+      depends_on:
+        agendamiento-db:
+          condition: service_healthy
+      healthcheck:
+        interval: 20s
+        retries: 15
+      environment:
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_DATABASE: agendamiento
+        MYSQL_USER: Fernando
+        MYSQL_PASSWORD: 2123
+      
   agendamiento-db:
     image: mysql:5.7
     healthcheck:
@@ -12,5 +29,7 @@ services:
       MYSQL_DATABASE: agendamiento
       MYSQL_USER: Fernando
       MYSQL_PASSWORD: 2123
+    security_opt:
+    - seccomp:unconfined
     ports:
-      - "3003:3003"
+      - "3306:3306"
