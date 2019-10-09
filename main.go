@@ -8,9 +8,9 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
-	driver "agendamiento/common"
-	ac "agendamiento/controllers/agendadas_controller"
-	hc "agendamiento/controllers/horario_controller"
+	driver "project_schedule_ms/common"
+	ac "project_schedule_ms/controllers/agendadas_controller"
+	hc "project_schedule_ms/controllers/horario_controller"
 )
 
 func main() {
@@ -48,7 +48,10 @@ func main() {
 func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", horarioHandler.Fetch)
-	r.Get("/{IDtutoria:[0-9]+}", horarioHandler.GetByID)
+	r.Get("/id/{IDtutoria:[0-9]+}", horarioHandler.GetByID)
+	r.Get("/nombre/{NombreMateria}", horarioHandler.GetByNombre)
+	r.Get("/fecha/{Fecha}", horarioHandler.GetByFecha)
+	r.Get("/hora/{HoraInicio}", horarioHandler.GetByHora)
 	r.Post("/", horarioHandler.Create)
 	r.Put("/{IDtutoria:[0-9]+}", horarioHandler.Update)
 	r.Delete("/{IDtutoria:[0-9]+}", horarioHandler.Delete)
@@ -59,10 +62,11 @@ func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 func agendadasRouter(agendadasHandler *ac.Agendadas) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", agendadasHandler.Fetch)
-	r.Get("/{IDtutoria:[0-9]+}", agendadasHandler.GetByID)
+	r.Get("/tutoria/{IDtutoria:[0-9]+}", agendadasHandler.GetByID)
+	r.Get("/alumno/{IDalumno:[0-9]+}", agendadasHandler.GetByID2)
 	r.Post("/", agendadasHandler.Create)
-	r.Put("/{IDtutoria:[0-9]+}", agendadasHandler.Update)
-	r.Delete("/{IDtutoria:[0-9]+}", agendadasHandler.Delete)
+	r.Put("/{IDtutoria:[0-9]+}/{IDalumno:[0-9]+}", agendadasHandler.Update)
+	r.Delete("/{IDtutoria:[0-9]+}/{IDalumno:[0-9]+}", agendadasHandler.Delete)
 
 	return r
 }

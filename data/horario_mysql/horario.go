@@ -1,11 +1,10 @@
 package horario_mysql
 
 import (
-	repo "agendamiento/data"
-	model "agendamiento/model"
 	"context"
 	"database/sql"
-	"fmt"
+	repo "project_schedule_ms/data"
+	model "project_schedule_ms/model"
 )
 
 func NewSQLHorario(Conn *sql.DB) repo.Horario {
@@ -59,8 +58,56 @@ func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Hor
 		return nil, err
 	}
 
-	fmt.Print("Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where IDtutoria=")
-	fmt.Println(IDtutoria)
+	payload := &model.Horario{}
+	if len(rows) > 0 {
+		payload = rows[0]
+	} else {
+		return nil, model.ErrNotFound
+	}
+
+	return payload, nil
+}
+
+func (m *mysqlHorario) GetByNombre(ctx context.Context, NombreMateria string) (*model.Horario, error) {
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where NombreMateria=?"
+	rows, err := m.fetch(ctx, query, NombreMateria)
+	if err != nil {
+		return nil, err
+	}
+
+	payload := &model.Horario{}
+	if len(rows) > 0 {
+		payload = rows[0]
+	} else {
+		return nil, model.ErrNotFound
+	}
+
+	return payload, nil
+}
+
+func (m *mysqlHorario) GetByFecha(ctx context.Context, Fecha string) (*model.Horario, error) {
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where Fecha=?"
+	rows, err := m.fetch(ctx, query, Fecha)
+	if err != nil {
+		return nil, err
+	}
+
+	payload := &model.Horario{}
+	if len(rows) > 0 {
+		payload = rows[0]
+	} else {
+		return nil, model.ErrNotFound
+	}
+
+	return payload, nil
+}
+
+func (m *mysqlHorario) GetByHora(ctx context.Context, HoraInicio string) (*model.Horario, error) {
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where HoraInicio=?"
+	rows, err := m.fetch(ctx, query, HoraInicio)
+	if err != nil {
+		return nil, err
+	}
 
 	payload := &model.Horario{}
 	if len(rows) > 0 {

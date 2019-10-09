@@ -11,6 +11,7 @@ type Horario struct {
 }
 
 type Agendadas struct {
-	IDtutoria int64 `json':"IDtutoria"`
-	IDalumno  int64 `json':"IDalumno"`
+	IDtutoria    int64  `json':"IDtutoria"`
+	IDalumno     int64  `json':"IDalumno"`
+	NombreAlumno string `json':"NombreAlumno"`
 }

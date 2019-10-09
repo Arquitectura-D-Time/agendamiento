@@ -1,10 +1,10 @@
 package agendadas_mysql
 
 import (
-	repo "agendamiento/data"
-	model "agendamiento/model"
 	"context"
 	"database/sql"
+	repo "project_schedule_ms/data"
+	model "project_schedule_ms/model"
 )
 
 func NewSQLAgendadas(Conn *sql.DB) repo.Agendadas {
@@ -31,6 +31,7 @@ func (m *mysqlAgendadas) fetch(ctx context.Context, query string, args ...interf
 		err := rows.Scan(
 			&data.IDtutoria,
 			&data.IDalumno,
+			&data.NombreAlumno,
 		)
 		if err != nil {
 			return nil, err
@@ -41,13 +42,13 @@ func (m *mysqlAgendadas) fetch(ctx context.Context, query string, args ...interf
 }
 
 func (m *mysqlAgendadas) Fetch(ctx context.Context, num int64) ([]*model.Agendadas, error) {
-	query := "Select IDtutoria, IDalumno From Agendadas limit ?"
+	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas limit ?"
 
 	return m.fetch(ctx, query, num)
 }
 
 func (m *mysqlAgendadas) GetByID(ctx context.Context, IDtutoria int64) (*model.Agendadas, error) {
-	query := "Select IDtutoria, IDalumno From Agendadas where IDtutoria=?"
+	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas where IDtutoria=?"
 
 	rows, err := m.fetch(ctx, query, IDtutoria)
 	if err != nil {
@@ -64,15 +65,33 @@ func (m *mysqlAgendadas) GetByID(ctx context.Context, IDtutoria int64) (*model.A
 	return payload, nil
 }
 
+func (m *mysqlAgendadas) GetByID2(ctx context.Context, IDalumno int64) (*model.Agendadas, error) {
+	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas where IDalumno=?"
+
+	rows, err := m.fetch(ctx, query, IDalumno)
+	if err != nil {
+		return nil, err
+	}
+
+	payload := &model.Agendadas{}
+	if len(rows) > 0 {
+		payload = rows[0]
+	} else {
+		return nil, model.ErrNotFound
+	}
+
+	return payload, nil
+}
+
 func (m *mysqlAgendadas) Create(ctx context.Context, p *model.Agendadas) (int64, error) {
-	query := "Insert Agendadas SET IDtutoria=?, IDalumno=?"
+	query := "Insert Agendadas SET IDtutoria=?, IDalumno=?, NombreAlumno=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
 		return -1, err
 	}
 
-	res, err := stmt.ExecContext(ctx, p.IDtutoria, p.IDalumno)
+	res, err := stmt.ExecContext(ctx, p.IDtutoria, p.IDalumno, p.NombreAlumno)
 	defer stmt.Close()
 
 	if err != nil {
@@ -83,7 +102,7 @@ func (m *mysqlAgendadas) Create(ctx context.Context, p *model.Agendadas) (int64,
 }
 
 func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model.Agendadas, error) {
-	query := "Update Agendadas set IDalumno=? where IDtutoria=?"
+	query := "Update Agendadas set NombreAlumno=? where IDtutoria=? AND IDalumno=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
@@ -91,8 +110,9 @@ func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model
 	}
 	_, err = stmt.ExecContext(
 		ctx,
-		p.IDalumno,
+		p.NombreAlumno,
 		p.IDtutoria,
+		p.IDalumno,
 	)
 	if err != nil {
 		return nil, err
@@ -102,14 +122,14 @@ func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model
 	return p, nil
 }
 
-func (m *mysqlAgendadas) Delete(ctx context.Context, IDtutoria int64) (bool, error) {
-	query := "Delete From Horario Where IDtutoria=?"
+func (m *mysqlAgendadas) Delete(ctx context.Context, IDtutoria int64, IDalumno int64) (bool, error) {
+	query := "Delete From Horario Where IDtutoria=? AND IDalumno=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
 		return false, err
 	}
-	_, err = stmt.ExecContext(ctx, IDtutoria)
+	_, err = stmt.ExecContext(ctx, IDtutoria, IDalumno)
 	if err != nil {
 		return false, err
 	}

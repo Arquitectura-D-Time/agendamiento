@@ -8,10 +8,10 @@ import (
 
 	"github.com/go-chi/chi"
 
-	driver "agendamiento/common"
-	repository "agendamiento/data"
-	horario "agendamiento/data/horario_mysql"
-	model "agendamiento/model"
+	driver "project_schedule_ms/common"
+	repository "project_schedule_ms/data"
+	horario "project_schedule_ms/data/horario_mysql"
+	model "project_schedule_ms/model"
 )
 
 func NewHorarioHandler(db *driver.DB) *Horario {
@@ -61,6 +61,42 @@ func (p *Horario) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
 	fmt.Println(id)
 	payload, err := p.repo.GetByID(r.Context(), int64(id))
+
+	if err != nil {
+		respondWithError(w, http.StatusNoContent, "Content not found")
+	}
+
+	respondwithJSON(w, http.StatusOK, payload)
+}
+
+func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "NombreMateria"))
+	fmt.Println(id)
+	payload, err := p.repo.GetByNombre(r.Context(), string(id))
+
+	if err != nil {
+		respondWithError(w, http.StatusNoContent, "Content not found")
+	}
+
+	respondwithJSON(w, http.StatusOK, payload)
+}
+
+func (p *Horario) GetByFecha(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "Fecha"))
+	fmt.Println(id)
+	payload, err := p.repo.GetByFecha(r.Context(), string(id))
+
+	if err != nil {
+		respondWithError(w, http.StatusNoContent, "Content not found")
+	}
+
+	respondwithJSON(w, http.StatusOK, payload)
+}
+
+func (p *Horario) GetByHora(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "HoraInicio"))
+	fmt.Println(id)
+	payload, err := p.repo.GetByHora(r.Context(), string(id))
 
 	if err != nil {
 		respondWithError(w, http.StatusNoContent, "Content not found")

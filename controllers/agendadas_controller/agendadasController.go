@@ -8,10 +8,10 @@ import (
 
 	"github.com/go-chi/chi"
 
-	driver "agendamiento/common"
-	repository "agendamiento/data"
-	agendadas "agendamiento/data/agendadas_mysql"
-	model "agendamiento/model"
+	driver "project_schedule_ms/common"
+	repository "project_schedule_ms/data"
+	agendadas "project_schedule_ms/data/agendadas_mysql"
+	model "project_schedule_ms/model"
 )
 
 func NewAgendadasHandler(db *driver.DB) *Agendadas {
@@ -45,8 +45,13 @@ func (p *Agendadas) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Agendadas) Update(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
-	data := model.Agendadas{IDtutoria: int64(id)}
+	idtutoria, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
+	idalumno, _ := strconv.Atoi(chi.URLParam(r, "IDalumno"))
+
+	data := model.Agendadas{
+		IDtutoria: int64(idtutoria),
+		IDalumno:  int64(idalumno),
+	}
 	json.NewDecoder(r.Body).Decode(&data)
 	payload, err := p.repo.Update(r.Context(), &data)
 
@@ -59,7 +64,17 @@ func (p *Agendadas) Update(w http.ResponseWriter, r *http.Request) {
 
 func (p *Agendadas) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
-	fmt.Println(id)
+	payload, err := p.repo.GetByID(r.Context(), int64(id))
+
+	if err != nil {
+		respondWithError(w, http.StatusNoContent, "Content not found")
+	}
+
+	respondwithJSON(w, http.StatusOK, payload)
+}
+
+func (p *Agendadas) GetByID2(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "IDalumno"))
 	payload, err := p.repo.GetByID(r.Context(), int64(id))
 
 	if err != nil {
@@ -70,8 +85,10 @@ func (p *Agendadas) GetByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Agendadas) Delete(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
-	_, err := p.repo.Delete(r.Context(), int64(id))
+	idtutoria, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
+	idalumno, _ := strconv.Atoi(chi.URLParam(r, "IDalumno"))
+
+	_, err := p.repo.Delete(r.Context(), int64(idtutoria), int64(idalumno))
 
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Server Error")
