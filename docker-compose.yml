@@ -1,6 +1,6 @@
 version: "2.1"
 services:
-  agendamiento-go:
+  schedule_ms:
       build:
         context: ./
       ports:
@@ -17,7 +17,7 @@ services:
         MYSQL_USER: Fernando
         MYSQL_PASSWORD: 2123
       
-  agendamiento-db:
+  schedule_db:
     image: mysql:5.7
     healthcheck:
       test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE"
@@ -32,4 +32,4 @@ services:
     security_opt:
     - seccomp:unconfined
     ports:
-      - "3306:3306"
+      - "3003:3306"
