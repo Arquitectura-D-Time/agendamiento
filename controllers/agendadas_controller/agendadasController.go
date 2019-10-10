@@ -75,7 +75,7 @@ func (p *Agendadas) GetByID(w http.ResponseWriter, r *http.Request) {
 
 func (p *Agendadas) GetByID2(w http.ResponseWriter, r *http.Request) {
 	id2, _ := strconv.Atoi(chi.URLParam(r, "IDalumno"))
-	payload, err := p.repo.GetByID(r.Context(), int64(id2))
+	payload, err := p.repo.GetByID2(r.Context(), int64(id2))
 
 	if err != nil {
 		respondWithError(w, http.StatusNoContent, "Content not found")
