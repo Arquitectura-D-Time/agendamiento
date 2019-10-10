@@ -6,7 +6,7 @@ services:
       ports:
         - "5003:5003"
       depends_on:
-        agendamiento-db:
+        schedule_db:
           condition: service_healthy
       healthcheck:
         interval: 20s
