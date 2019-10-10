@@ -69,7 +69,7 @@ func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Hor
 }
 
 func (m *mysqlHorario) GetByNombre(ctx context.Context, NombreMateria string) (*model.Horario, error) {
-	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where NombreMateria like '?'"
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where NombreMateria like '%?%'"
 	rows, err := m.fetch(ctx, query, NombreMateria)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (m *mysqlHorario) GetByNombre(ctx context.Context, NombreMateria string) (*
 }
 
 func (m *mysqlHorario) GetByFecha(ctx context.Context, Fecha string) (*model.Horario, error) {
-	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where Fecha like '?'"
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where Fecha like '%?%'"
 	rows, err := m.fetch(ctx, query, Fecha)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (m *mysqlHorario) GetByFecha(ctx context.Context, Fecha string) (*model.Hor
 }
 
 func (m *mysqlHorario) GetByHora(ctx context.Context, HoraInicio string) (*model.Horario, error) {
-	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where HoraInicio like '?'"
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where HoraInicio like '%?%'"
 	rows, err := m.fetch(ctx, query, HoraInicio)
 	if err != nil {
 		return nil, err
