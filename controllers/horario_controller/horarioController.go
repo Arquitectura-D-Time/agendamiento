@@ -72,7 +72,7 @@ func (p *Horario) GetByID(w http.ResponseWriter, r *http.Request) {
 func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
 	nombre, _ := strconv.Atoi(chi.URLParam(r, "NombreMateria"))
 	
-	payload, err := p.repo.GetByNombre(r.Context(), nombre)
+	payload, err := p.repo.GetByNombre(r.Context(),string(nombre))
 
 	if err != nil {
 		respondWithError(w, http.StatusNoContent, "Content not found")
@@ -84,7 +84,7 @@ func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
 func (p *Horario) GetByFecha(w http.ResponseWriter, r *http.Request) {
 	fecha, _ := strconv.Atoi(chi.URLParam(r, "Fecha"))
 	
-	payload, err := p.repo.GetByFecha(r.Context(), fecha)
+	payload, err := p.repo.GetByFecha(r.Context(), string(fecha))
 
 	if err != nil {
 		respondWithError(w, http.StatusNoContent, "Content not found")
@@ -96,7 +96,7 @@ func (p *Horario) GetByFecha(w http.ResponseWriter, r *http.Request) {
 func (p *Horario) GetByHora(w http.ResponseWriter, r *http.Request) {
 	hora, _ := strconv.Atoi(chi.URLParam(r, "HoraInicio"))
 	
-	payload, err := p.repo.GetByHora(r.Context(), hora)
+	payload, err := p.repo.GetByHora(r.Context(), string(hora))
 
 	if err != nil {
 		respondWithError(w, http.StatusNoContent, "Content not found")
