@@ -3,6 +3,7 @@ package horario_mysql
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	repo "project_schedule_ms/data"
 	model "project_schedule_ms/model"
 )
@@ -70,6 +71,7 @@ func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Hor
 
 func (m *mysqlHorario) GetByNombre(ctx context.Context, NombreMateria string) (*model.Horario, error) {
 	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where NombreMateria like '%?%'"
+	fmt.Println(query)
 	rows, err := m.fetch(ctx, query, NombreMateria)
 	if err != nil {
 		return nil, err
