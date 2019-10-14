@@ -70,7 +70,7 @@ func (p *Horario) GetByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
-	nombre := (chi.URLParam(r, "NombreMateria"))
+	nombre := strconv.QuoteToASCII(chi.URLParam(r, "NombreMateria"))
 	fmt.Println(chi.URLParam(r, "NombreMateria"))
 	fmt.Println(nombre)
 	payload, err := p.repo.GetByNombre(r.Context(),string(nombre))

@@ -70,9 +70,11 @@ func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Hor
 }
 
 func (m *mysqlHorario) GetByNombre(ctx context.Context, NombreMateria string) (*model.Horario, error) {
+	fmt.Println(NombreMateria)
 	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario where NombreMateria like '%?%'"
 	fmt.Println(query)
 	rows, err := m.fetch(ctx, query, NombreMateria)
+	fmt.Println(query)
 	if err != nil {
 		return nil, err
 	}
