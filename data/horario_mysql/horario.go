@@ -47,9 +47,9 @@ func (m *mysqlHorario) fetch(ctx context.Context, query string, args ...interfac
 }
 
 func (m *mysqlHorario) Fetch(ctx context.Context, num int64) ([]*model.Horario, error) {
-	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario limit ?"
+	query := "Select IDtutoria, IDtutor, NombreMateria, Fecha, HoraInicio, HoraFinal, Cupos From Horario"
 
-	return m.fetch(ctx, query, num)
+	return m.fetch(ctx, query)
 }
 
 func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Horario, error) {
@@ -57,16 +57,9 @@ func (m *mysqlHorario) GetByID(ctx context.Context, IDtutoria int64) (*model.Hor
 	rows, err := m.fetch(ctx, query, IDtutoria)
 	if err != nil {
 		return nil, err
-	}
-
-	payload := &model.Horario{}
-	if len(rows) > 0 {
-		payload = rows[0]
 	} else {
-		return nil, model.ErrNotFound
+		return rows
 	}
-
-	return payload, nil
 }
 
 func (m *mysqlHorario) GetByIDTutor(ctx context.Context, IDtutor int64) (*model.Horario, error) {
@@ -158,7 +151,7 @@ func (m *mysqlHorario) Create(ctx context.Context, p *model.Horario) (int64, err
 }
 
 func (m *mysqlHorario) Update(ctx context.Context, p *model.Horario) (*model.Horario, error) {
-	query := "Update Horario set Fecha=?, HoraInicio=?, HoraFinal=?, Cupos=? where IDtutoria=? AND IDtutor=?"
+	query := "Update Horario set NombreMateria=? Fecha=?, HoraInicio=?, HoraFinal=?, Cupos=? where IDtutoria=? AND IDtutor=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
@@ -166,6 +159,7 @@ func (m *mysqlHorario) Update(ctx context.Context, p *model.Horario) (*model.Hor
 	}
 	_, err = stmt.ExecContext(
 		ctx,
+		p.NombreMateria,
 		p.Fecha,
 		p.HoraInicio,
 		p.HoraFinal,
