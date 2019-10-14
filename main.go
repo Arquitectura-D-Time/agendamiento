@@ -54,8 +54,8 @@ func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 	r.Get("/fecha/{Fecha}", horarioHandler.GetByFecha)
 	r.Get("/hora/{HoraInicio}", horarioHandler.GetByHora)
 	r.Post("/", horarioHandler.Create)
-	r.Put("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+", horarioHandler.Update)
-	r.Delete("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+", horarioHandler.Delete)
+	r.Put("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+}", horarioHandler.Update)
+	r.Delete("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+}", horarioHandler.Delete)
 
 	return r
 }
