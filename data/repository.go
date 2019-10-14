@@ -10,7 +10,7 @@ type Horario interface {
 	GetByID(ctx context.Context, id int64) ([]*model.Horario, error)
 	GetByIDTutor(ctx context.Context, idtutor int64) ([]*model.Horario, error)
 	GetByNombre(ctx context.Context, nombre string) ([]*model.Horario, error)
-	GetByFecha(ctx context.Context, fecha string) ([]]*model.Horario, error)
+	GetByFecha(ctx context.Context, fecha string) ([]*model.Horario, error)
 	GetByHora(ctx context.Context, hora string) ([]*model.Horario, error)
 	Create(ctx context.Context, p *model.Horario) (int64, error)
 	Update(ctx context.Context, p *model.Horario) (*model.Horario, error)
