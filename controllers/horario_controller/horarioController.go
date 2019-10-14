@@ -45,8 +45,13 @@ func (p *Horario) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) Update(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
-	data := model.Horario{IDtutoria: int64(id)}
+	idtutoria, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
+	idtutor, _ := strconv.Atoi(chi.URLParam(r, "IDtutor"))
+
+	data := model.Horario{
+		IDtutoria: int64(idtutoria),
+		IDalumno:  int64(idtutor),
+	}
 	json.NewDecoder(r.Body).Decode(&data)
 	payload, err := p.repo.Update(r.Context(), &data)
 
@@ -69,9 +74,20 @@ func (p *Horario) GetByID(w http.ResponseWriter, r *http.Request) {
 	respondwithJSON(w, http.StatusOK, payload)
 }
 
+func (p *Horario) GetByIDTutor(w http.ResponseWriter, r *http.Request) {
+	idtutor, _ := strconv.Atoi(chi.URLParam(r, "IDtutor"))
+	
+	payload, err := p.repo.GetByIDTutor(r.Context(), int64(idtutor))
+
+	if err != nil {
+		respondWithError(w, http.StatusNoContent, "Content not found")
+	}
+
+	respondwithJSON(w, http.StatusOK, payload)
+}
+
 func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
 	nombre := strconv.QuoteToASCII(chi.URLParam(r, "NombreMateria"))
-	fmt.Println(chi.URLParam(r, "NombreMateria"))
 	fmt.Println(nombre)
 	payload, err := p.repo.GetByNombre(r.Context(),string(nombre))
 
@@ -107,8 +123,9 @@ func (p *Horario) GetByHora(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) Delete(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
-	_, err := p.repo.Delete(r.Context(), int64(id))
+	idtutoria, _ := strconv.Atoi(chi.URLParam(r, "IDtutoria"))
+	idtutor, _ := strconv.Atoi(chi.URLParam(r, "IDtutor"))
+	_, err := p.repo.Delete(r.Context(), int64(idtutoria), int64(idtutor))
 
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Server Error")

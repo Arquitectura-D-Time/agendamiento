@@ -49,12 +49,13 @@ func horarioRouter(horarioHandler *hc.Horario) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", horarioHandler.Fetch)
 	r.Get("/id/{IDtutoria:[0-9]+}", horarioHandler.GetByID)
+	r.Get("/idtutor/{IDtutor:[0-9]+}", horarioHandler.GetByIDTutor)
 	r.Get("/nombre/{NombreMateria}", horarioHandler.GetByNombre)
 	r.Get("/fecha/{Fecha}", horarioHandler.GetByFecha)
 	r.Get("/hora/{HoraInicio}", horarioHandler.GetByHora)
 	r.Post("/", horarioHandler.Create)
-	r.Put("/{IDtutoria:[0-9]+}", horarioHandler.Update)
-	r.Delete("/{IDtutoria:[0-9]+}", horarioHandler.Delete)
+	r.Put("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+", horarioHandler.Update)
+	r.Delete("/{IDtutoria:[0-9]+}/{IDtutor:[0-9]+", horarioHandler.Delete)
 
 	return r
 }
