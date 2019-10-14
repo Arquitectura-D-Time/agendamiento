@@ -50,7 +50,7 @@ func (p *Horario) Update(w http.ResponseWriter, r *http.Request) {
 
 	data := model.Horario{
 		IDtutoria: int64(idtutoria),
-		IDalumno:  int64(idtutor),
+		IDtutor:  int64(idtutor),
 	}
 	json.NewDecoder(r.Body).Decode(&data)
 	payload, err := p.repo.Update(r.Context(), &data)
