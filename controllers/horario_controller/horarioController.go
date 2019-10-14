@@ -70,7 +70,8 @@ func (p *Horario) GetByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
-	nombre, _ := strconv.Atoi(chi.URLParam(r, "NombreMateria"))
+	nombre, _ := (chi.URLParam(r, "NombreMateria"))
+	fmt.Println(chi.URLParam(r, "NombreMateria"))
 	fmt.Println(nombre)
 	payload, err := p.repo.GetByNombre(r.Context(),string(nombre))
 
@@ -82,7 +83,7 @@ func (p *Horario) GetByNombre(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) GetByFecha(w http.ResponseWriter, r *http.Request) {
-	fecha, _ := strconv.Atoi(chi.URLParam(r, "Fecha"))
+	fecha, _ := (chi.URLParam(r, "Fecha"))
 	fmt.Println(fecha)
 	payload, err := p.repo.GetByFecha(r.Context(), string(fecha))
 
@@ -94,7 +95,7 @@ func (p *Horario) GetByFecha(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *Horario) GetByHora(w http.ResponseWriter, r *http.Request) {
-	hora, _ := strconv.Atoi(chi.URLParam(r, "HoraInicio"))
+	hora, _ := (chi.URLParam(r, "HoraInicio"))
 	fmt.Println(hora)
 	payload, err := p.repo.GetByHora(r.Context(), string(hora))
 
