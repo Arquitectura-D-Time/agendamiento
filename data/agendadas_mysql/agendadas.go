@@ -42,9 +42,9 @@ func (m *mysqlAgendadas) fetch(ctx context.Context, query string, args ...interf
 }
 
 func (m *mysqlAgendadas) Fetch(ctx context.Context, num int64) ([]*model.Agendadas, error) {
-	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas limit ?"
+	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas"
 
-	return m.fetch(ctx, query, num)
+	return m.fetch(ctx, query)
 }
 
 func (m *mysqlAgendadas) GetByID(ctx context.Context, IDtutoria int64) ([]*model.Agendadas, error) {
