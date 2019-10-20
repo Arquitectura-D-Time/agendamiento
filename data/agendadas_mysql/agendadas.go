@@ -109,7 +109,7 @@ func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model
 }
 
 func (m *mysqlAgendadas) Delete(ctx context.Context, IDtutoria int64, IDalumno int64) (bool, error) {
-	query := "Delete From Horario Where IDtutoria=? AND IDalumno=?"
+	query := "Delete From Agendadas Where IDtutoria=? AND IDalumno=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {

@@ -123,7 +123,7 @@ func (m *mysqlHorario) Create(ctx context.Context, p *model.Horario) (int64, err
 }
 
 func (m *mysqlHorario) Update(ctx context.Context, p *model.Horario) (*model.Horario, error) {
-	query := "Update Horario set NombreMateria=? Fecha=?, HoraInicio=?, HoraFinal=?, Cupos=? where IDtutoria=? AND IDtutor=?"
+	query := "Update Horario set NombreMateria=?, Fecha=?, HoraInicio=?, HoraFinal=?, Cupos=? where IDtutoria=? AND IDtutor=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
