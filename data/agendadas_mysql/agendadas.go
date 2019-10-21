@@ -42,45 +42,31 @@ func (m *mysqlAgendadas) fetch(ctx context.Context, query string, args ...interf
 }
 
 func (m *mysqlAgendadas) Fetch(ctx context.Context, num int64) ([]*model.Agendadas, error) {
-	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas limit ?"
+	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas"
 
-	return m.fetch(ctx, query, num)
+	return m.fetch(ctx, query)
 }
 
-func (m *mysqlAgendadas) GetByID(ctx context.Context, IDtutoria int64) (*model.Agendadas, error) {
+func (m *mysqlAgendadas) GetByID(ctx context.Context, IDtutoria int64) ([]*model.Agendadas, error) {
 	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas where IDtutoria=?"
 
 	rows, err := m.fetch(ctx, query, IDtutoria)
 	if err != nil {
 		return nil, err
-	}
-
-	payload := &model.Agendadas{}
-	if len(rows) > 0 {
-		payload = rows[0]
 	} else {
-		return nil, model.ErrNotFound
+		return rows, nil
 	}
-
-	return payload, nil
 }
 
-func (m *mysqlAgendadas) GetByID2(ctx context.Context, IDalumno int64) (*model.Agendadas, error) {
+func (m *mysqlAgendadas) GetByID2(ctx context.Context, IDalumno int64) ([]*model.Agendadas, error) {
 	query := "Select IDtutoria, IDalumno, NombreAlumno From Agendadas where IDalumno=?"
 
 	rows, err := m.fetch(ctx, query, IDalumno)
 	if err != nil {
 		return nil, err
-	}
-
-	payload := &model.Agendadas{}
-	if len(rows) > 0 {
-		payload = rows[0]
 	} else {
-		return nil, model.ErrNotFound
+		return rows, nil
 	}
-
-	return payload, nil
 }
 
 func (m *mysqlAgendadas) Create(ctx context.Context, p *model.Agendadas) (int64, error) {
@@ -123,7 +109,7 @@ func (m *mysqlAgendadas) Update(ctx context.Context, p *model.Agendadas) (*model
 }
 
 func (m *mysqlAgendadas) Delete(ctx context.Context, IDtutoria int64, IDalumno int64) (bool, error) {
-	query := "Delete From Horario Where IDtutoria=? AND IDalumno=?"
+	query := "Delete From Agendadas Where IDtutoria=? AND IDalumno=?"
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
