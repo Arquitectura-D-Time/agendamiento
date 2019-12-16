@@ -22,7 +22,10 @@ func main() {
 	*/
 
 	//connection, err := driver.ConnectSQL(dbHost, dbPort, "Fernando", dbPass, dbName)
-	connection, err := driver.ConnectSQL("34.68.15.162", "3003", "Fernando", "2123", "agendamiento")
+
+	name := os.Getenv("schedule-ms")
+
+	connection, err := driver.ConnectSQL(name, "3003", "Fernando", "2123", "agendamiento")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
