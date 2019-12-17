@@ -25,7 +25,7 @@ func main() {
 
 	name := os.Getenv("sa-schedule-db")
 
-	connection, err := driver.ConnectSQL(name, "3003", "Fernando", "2123", "agendamiento")
+	connection, err := driver.ConnectSQL("34.68.15.162", "3003", "Fernando", "2123", "agendamiento")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
