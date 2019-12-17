@@ -16,7 +16,6 @@ services:
         MYSQL_DATABASE: agendamiento
         MYSQL_USER: Fernando
         MYSQL_PASSWORD: 2123
-        SCHEDULE_DB: sa-schedule-db
       
   schedule_db:
     image: mysql:5.7
