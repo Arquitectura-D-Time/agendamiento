@@ -30,6 +30,7 @@ services:
       MYSQL_DATABASE: agendamiento
       MYSQL_USER: Fernando
       MYSQL_PASSWORD: 2123
+      HOST_DATABASE: schedule-db
     security_opt:
     - seccomp:unconfined
     ports:
