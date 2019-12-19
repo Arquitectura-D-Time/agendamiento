@@ -17,6 +17,7 @@ var dbConn = &DB{}
 
 // ConnectSQL ...
 func ConnectSQL(host, port, uname, pass, dbname string) (*DB, error) {
+	/*
 	dbSource := fmt.Sprintf(
 		"Fernando:%s@tcp(%s:%s)/%s?charset=utf8",
 		pass,
@@ -24,7 +25,8 @@ func ConnectSQL(host, port, uname, pass, dbname string) (*DB, error) {
 		port,
 		dbname,
 	)
-	d, err := sql.Open("mysql", dbSource)
+	*/
+	d, err := sql.Open("mysql", "root:1234@tcp(schedule-db)/agendamiento")
 	if err != nil {
 		panic(err)
 	}
